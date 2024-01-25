@@ -15,7 +15,7 @@ pub struct Response {
 }
 
 impl Response {
-    pub(super) fn new(res: hyper::Response<hyper::Body>, url: Url) -> Response {
+    pub(super) fn new(res: hyper::Response<Body>, url: Url) -> Response {
         Response { res, url }
     }
 
@@ -221,5 +221,10 @@ impl Response {
     /// ```
     pub async fn bytes(self) -> Result<Bytes> {
         Ok(hyper::body::to_bytes(self.res.into_body()).await?)
+    }
+
+    #[inline]
+    pub fn into_body(self) -> Body {
+        self.res.into_body()
     }
 }
